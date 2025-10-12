@@ -1,19 +1,13 @@
 "use client";
 
-import {
-  useChainId,
-  useReadContract,
-  useWriteContract,
-  useWatchContractEvent,
-} from "wagmi";
+import { useChainId, useReadContract, useWriteContract, useWatchContractEvent } from "wagmi";
 
 import counterArtifact from "../../out/Counter.sol/Counter.json";
 import process from "process";
 import { useState } from "react";
 const abi = counterArtifact.abi;
 
-const contractAddress = process.env
-  .NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`;
+const contractAddress = "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae";
 
 export default function Counter() {
   const { data: count, refetch } = useReadContract({
@@ -28,8 +22,8 @@ export default function Counter() {
     abi,
     eventName: "CountChanged",
     chainId: useChainId(),
-    poll: true,
-    pollingInterval: 1000,
+    // poll: true,
+    // pollingInterval: 1000,
     onLogs(logs) {
       console.log("🟢 CountChanged event:", logs);
       refetch();
@@ -74,11 +68,7 @@ export default function Counter() {
         当前计数：<b>{Number(count || 0)}</b>
       </p>
 
-      <button
-        onClick={handleIncrement}
-        disabled={isPending}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-      >
+      <button onClick={handleIncrement} disabled={isPending} className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
         {isPending ? "提交中..." : "增加 +1"}
       </button>
 
@@ -96,11 +86,7 @@ export default function Counter() {
           className="w-full mt-1 p-2 border rounded-md"
           placeholder="0"
         />
-        <button
-          onClick={handleClick}
-          disabled={isPending}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
+        <button onClick={handleClick} disabled={isPending} className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
           {isPending ? "提交中..." : "设置计数"}
         </button>
       </div>

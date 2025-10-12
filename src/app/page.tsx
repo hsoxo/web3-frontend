@@ -6,6 +6,7 @@ import { useFormattedBalance } from "@/hooks/useFormattedBalance";
 import { useEffect } from "react";
 import Counter from "@/components/Counter";
 import SendTrans from "@/components/SendTrans";
+import DaoVote from "@/components/DaoVote";
 
 export default function HomePage() {
   const { address, isConnected } = useAccount();
@@ -47,6 +48,7 @@ export default function HomePage() {
         )}
         <SendTrans />
         <Counter />
+        <DaoVote />
       </div>
     </main>
   );
