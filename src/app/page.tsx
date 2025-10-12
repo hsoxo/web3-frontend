@@ -10,11 +10,7 @@ import DaoVote from "@/components/DaoVote";
 
 export default function HomePage() {
   const { address, isConnected } = useAccount();
-  const {
-    formatted,
-    symbol,
-    refetch: refetchBalance,
-  } = useFormattedBalance(address);
+  const { formatted, symbol, refetch: refetchBalance } = useFormattedBalance(address);
   const { data: hash, isSuccess } = useSendTransaction();
 
   useEffect(() => {
@@ -32,23 +28,25 @@ export default function HomePage() {
 
       <div>
         {isConnected && (
-          <div className="mt-8 bg-white p-6 rounded-xl shadow-md w-120 text-center">
-            <div className="flex gap-2">
-              <span className="font-semibold">Address:</span>
-              <span className="text-sm break-all text-gray-600">{address}</span>
-            </div>
+          <>
+            <div className="mt-8 bg-white p-6 rounded-xl shadow-md w-120 text-center">
+              <div className="flex gap-2">
+                <span className="font-semibold">Address:</span>
+                <span className="text-sm break-all text-gray-600">{address}</span>
+              </div>
 
-            <div className="flex gap-2">
-              <span className="font-semibold">Balance:</span>
-              <span className="text-sm">
-                {formatted} {symbol}
-              </span>
+              <div className="flex gap-2">
+                <span className="font-semibold">Balance:</span>
+                <span className="text-sm">
+                  {formatted} {symbol}
+                </span>
+              </div>
             </div>
-          </div>
+            <SendTrans />
+            <Counter />
+            <DaoVote />
+          </>
         )}
-        <SendTrans />
-        <Counter />
-        <DaoVote />
       </div>
     </main>
   );

@@ -3,11 +3,12 @@
 import { useChainId, useReadContract, useWriteContract, useWatchContractEvent } from "wagmi";
 
 import counterArtifact from "../../out/Counter.sol/Counter.json";
-import process from "process";
 import { useState } from "react";
+import contractConfig from "../../contract-config.json";
+
 const abi = counterArtifact.abi;
 
-const contractAddress = "0x9a9f2ccfde556a7e9ff0848998aa4a0cfd8863ae";
+const contractAddress = contractConfig.counter as `0x${string}`;
 
 export default function Counter() {
   const { data: count, refetch } = useReadContract({
@@ -16,12 +17,13 @@ export default function Counter() {
     functionName: "getCount",
   });
   const [inputCount, setInputCount] = useState<number | null>(null);
+  const chainId = useChainId();
 
   useWatchContractEvent({
     address: contractAddress,
     abi,
     eventName: "CountChanged",
-    chainId: useChainId(),
+    chainId,
     // poll: true,
     // pollingInterval: 1000,
     onLogs(logs) {
@@ -52,9 +54,9 @@ export default function Counter() {
       writeContract({
         address: contractAddress,
         abi,
-        functionName: "setCount", // ✅ 函数名
-        args: [inputCount], // ✅ 参数数组（顺序与合约定义一致）
-        chainId: 31337, // ✅ 指定链
+        functionName: "setCount",
+        args: [inputCount],
+        chainId,
       });
     } catch (err) {
       console.error("❌ Write failed:", err);
@@ -65,11 +67,11 @@ export default function Counter() {
     <div className="bg-white p-6 rounded-xl shadow-md w-80 text-center mt-6">
       <h1 className="text-3xl font-bold mb-6">🧮 Counter DApp</h1>
       <p className="text-lg mb-4">
-        当前计数：<b>{Number(count || 0)}</b>
+        Current count: <b>{Number(count || 0)}</b>
       </p>
 
       <button onClick={handleIncrement} disabled={isPending} className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-        {isPending ? "提交中..." : "增加 +1"}
+        {isPending ? "Submitting..." : "Increase +1"}
       </button>
 
       <div>
@@ -87,7 +89,7 @@ export default function Counter() {
           placeholder="0"
         />
         <button onClick={handleClick} disabled={isPending} className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-          {isPending ? "提交中..." : "设置计数"}
+          {isPending ? "Submitting..." : "Set Count"}
         </button>
       </div>
     </div>

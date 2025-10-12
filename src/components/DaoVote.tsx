@@ -8,10 +8,11 @@ import dayjs from "dayjs";
 import { ContractFunctionExecutionError, ContractFunctionRevertedError } from "viem";
 import toast from "react-hot-toast";
 import clsx from "clsx";
+import contractConfig from "../../contract-config.json";
 
 const abi = daoVoteArtifact.abi;
 
-const contractAddress = "0x84eA74d481Ee0A5332c457a4d796187F6Ba67fEB";
+const contractAddress = contractConfig.dao as `0x${string}`;
 
 interface Proposal {
   id: number;
@@ -96,7 +97,7 @@ export default function DaoVote() {
         account: address, // 重要：指定 msg.sender
       });
 
-      console.log("模拟结果:", result);
+      console.log("Simulate result:", result);
 
       await writeContractAsync({
         address: contractAddress,
@@ -108,13 +109,13 @@ export default function DaoVote() {
     } catch (err) {
       if (err instanceof ContractFunctionExecutionError) {
         const error = err as ContractFunctionExecutionError;
-        console.error("执行错误:", error.shortMessage);
+        console.error("Execution error:", error.shortMessage);
         if (error.cause instanceof ContractFunctionRevertedError) {
-          console.error("Revert 原因:", error.cause?.reason);
+          console.error("Revert reason:", error.cause?.reason);
           toast.error(`${error.cause?.reason}`);
         }
       } else {
-        console.error("其他错误:", err);
+        console.error("Other error:", err);
       }
     }
   };
@@ -128,7 +129,7 @@ export default function DaoVote() {
           setDescription(value);
         }}
         className="w-full mt-1 p-2 border rounded-md"
-        placeholder="提案描述"
+        placeholder="Proposal description"
       />
       <input
         value={durationSeconds ?? ""}
@@ -137,27 +138,27 @@ export default function DaoVote() {
           setDurationSeconds(Number(value));
         }}
         className="w-full mt-1 p-2 border rounded-md"
-        placeholder="提案持续时间（秒）"
+        placeholder="Proposal duration (seconds)"
       />
       <button onClick={handleCreateProposal} disabled={isPending} className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-        {isPending ? "提交中..." : "创建提案"}
+        {isPending ? "Submitting..." : "Create Proposal"}
       </button>
       {proposals?.map((proposal) => (
         <div key={proposal.id} className="mt-2 border-b pb-2">
           <div className="font-semibold">
             <span>{proposal.description}</span>
-            <span className="text-xs text-gray-500 pl-2">{proposal.hasVoted ? "已投票" : "未投票"}</span>
+            <span className="text-xs text-gray-500 pl-2">{proposal.hasVoted ? "Voted" : "Not voted"}</span>
           </div>
           <div className="text-sm text-gray-500">Deadline: {dayjs(Number(proposal.deadline) * 1000).format("YYYY-MM-DD HH:mm:ss")}</div>
           {proposal.executed ? (
-            <div className="text-sm text-gray-500">已执行</div>
+            <div className="text-sm text-gray-500">Executed</div>
           ) : (
             <div className="flex gap-2 mt-2">
               <button
                 onClick={() => handleVote(proposal.id, true)}
                 className={clsx("px-2 py-1 border border-lime-500 text-lime-500 rounded-md", proposal.hasVoted && proposal.support && "bg-lime-500 text-white")}
               >
-                支持 {proposal.votesFor}
+                👍 {proposal.votesFor}
               </button>
               <button
                 onClick={() => handleVote(proposal.id, false)}
@@ -166,7 +167,7 @@ export default function DaoVote() {
                   proposal.hasVoted && !proposal.support && "bg-orange-600 text-white",
                 )}
               >
-                反对 {proposal.votesAgainst}
+                👎 {proposal.votesAgainst}
               </button>
             </div>
           )}

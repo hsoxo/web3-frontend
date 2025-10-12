@@ -11,5 +11,15 @@ contract DeployCounter is Script {
         Counter counter = new Counter();
         MiniDaoVote dao = new MiniDaoVote();
         vm.stopBroadcast();
+
+        string memory json = string.concat(
+            '{"counter": "',
+            vm.toString(address(counter)),
+            '", "dao": "',
+            vm.toString(address(dao)),
+            '"}'
+        );
+
+        vm.writeFile("contract-config.json", json);
     }
 }

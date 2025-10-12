@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  web3-frontend:
+    build: .
+    container_name: web3-frontend
+    ports:
+      - "3013:3013"
+    depends_on:
+      - anvil
+    restart: unless-stopped
+    networks:
+      - devnet
+    develop:
+      watch:
+        - path: ./src
+          action: sync
+          target: /app/src
+        - path: ./package.json
+          action: rebuild
+
+  anvil:
+    image: ghcr.io/foundry-rs/foundry:latest
+    container_name: anvil-node
+    entrypoint: ["/bin/bash", "-lc"]
+    command: >
+      "anvil --host 0.0.0.0 --port 8545
+      --chain-id 31337
+      --accounts 10
+      --balance 10000
+      --block-time 2
+      --state /data/state.json
+      --mnemonic \"test test test test test test test test test test test junk\""
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./anvil-data:/data
+    restart: unless-stopped
+    networks:
+      - devnet
+
+  otterscan:
+    image: otterscan/otterscan:latest
+    container_name: otterscan
+    environment:
+      - ERIGON_URL=http://localhost:8545
+      - OTS2=false
+    ports:
+      - "5100:80"
+    depends_on:
+      - anvil
+    restart: unless-stopped
+    networks:
+      - devnet
+
+networks:
+  devnet:
+    driver: bridge

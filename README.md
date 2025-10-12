@@ -1,1 +1,14 @@
-forge script script/DeployCounter.s.sol --rpc-url http://10.10.10.122:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --broadcast
+To start the project, run the following commands:
+
+```bash
+docker compose up --build
+```
+
+Then you can access the frontend at http://localhost:3013
+
+To develop the project, run the following commands:
+
+```bash
+docker compose up --build -d
+docker compose watch web3-frontend
+```
