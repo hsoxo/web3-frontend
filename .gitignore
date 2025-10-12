@@ -66,7 +66,6 @@ typechain-types/
 # Foundry
 cache_forge/
 out_forge/
-broadcast/
 
 # Truffle
 build/
@@ -79,3 +78,18 @@ build/
 .chaindata/
 geth/
 devchain/
+
+# Compiler files
+cache/
+out/
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Docs
+docs/
+
+# Dotenv file
+.env
