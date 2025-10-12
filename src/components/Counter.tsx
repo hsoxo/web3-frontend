@@ -22,13 +22,12 @@ export default function Counter() {
     functionName: "getCount",
   });
   const [inputCount, setInputCount] = useState<number | null>(null);
-  console.log("🧩 当前链 ID:", useChainId());
 
   useWatchContractEvent({
     address: contractAddress,
     abi,
     eventName: "CountChanged",
-    chainId: 31337,
+    chainId: useChainId(),
     poll: true,
     pollingInterval: 1000,
     onLogs(logs) {
@@ -42,7 +41,7 @@ export default function Counter() {
 
   const { writeContract, isPending } = useWriteContract();
 
-  async function handleIncrement() {
+  const handleIncrement = () => {
     try {
       writeContract({
         address: contractAddress,
@@ -52,19 +51,17 @@ export default function Counter() {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
-  const handleClick = async () => {
+  const handleClick = () => {
     try {
-      const tx = await writeContract({
+      writeContract({
         address: contractAddress,
         abi,
         functionName: "setCount", // ✅ 函数名
         args: [inputCount], // ✅ 参数数组（顺序与合约定义一致）
         chainId: 31337, // ✅ 指定链
       });
-
-      console.log("📤 TX sent:", tx);
     } catch (err) {
       console.error("❌ Write failed:", err);
     }
