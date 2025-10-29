@@ -2,7 +2,7 @@
 
 import { useChainId, useReadContract, useWriteContract, useWatchContractEvent, usePublicClient, useAccount } from "wagmi";
 
-import daoVoteArtifact from "../../out/MiniDaoVote.sol/MiniDaoVote.json";
+import daoVoteArtifact from "../abi/MiniDaoVote.json";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { ContractFunctionExecutionError, ContractFunctionRevertedError } from "viem";

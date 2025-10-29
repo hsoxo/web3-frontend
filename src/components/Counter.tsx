@@ -2,7 +2,7 @@
 
 import { useChainId, useReadContract, useWriteContract, useWatchContractEvent } from "wagmi";
 
-import counterArtifact from "../../out/Counter.sol/Counter.json";
+import counterArtifact from "../abi/Counter.json";
 import { useState } from "react";
 import contractConfig from "../../contract-config.json";
 
