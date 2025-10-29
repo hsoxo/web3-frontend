@@ -93,5 +93,3 @@ docs/
 
 # Dotenv file
 .env
-
-contract-config.json
