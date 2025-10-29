@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import Counter from "@/components/Counter";
 import SendTrans from "@/components/SendTrans";
 import DaoVote from "@/components/DaoVote";
+import Sign from "@/components/Sign";
 
 export default function HomePage() {
   const { address, isConnected } = useAccount();
@@ -43,6 +44,7 @@ export default function HomePage() {
               </div>
             </div>
             <SendTrans />
+            <Sign />
             <Counter />
             <DaoVote />
           </>

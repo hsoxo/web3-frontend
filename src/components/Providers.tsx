@@ -24,12 +24,34 @@ const anvil = defineChain({
   },
 });
 
+const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_ID;
+const WALLETCONNECT_PROJECT_ID = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+
+const mainnet = defineChain({
+  id: 1,
+  name: "Mainnet",
+  network: "mainnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "Ethereum",
+    symbol: "ETH",
+  },
+  rpcUrls: {
+    default: { http: ["https://mainnet.infura.io/v3/" + INFURA_ID] },
+    public: { http: ["https://mainnet.infura.io/v3/" + INFURA_ID] },
+  },
+  blockExplorers: {
+    default: { name: "Etherscan", url: "https://etherscan.io" },
+  },
+});
+
 const config = getDefaultConfig({
   appName: "My First Wallet",
-  projectId: "YOUR_WALLETCONNECT_PROJECT_ID",
-  chains: [anvil],
+  projectId: WALLETCONNECT_PROJECT_ID,
+  chains: [mainnet],
   transports: {
-    [anvil.id]: http("http://10.10.10.122:8545"),
+    [mainnet.id]: http("https://mainnet.infura.io/v3/" + INFURA_ID),
+    // [anvil.id]: http("http://10.10.10.122:8545"),
   },
   ssr: true,
 });
