@@ -4,9 +4,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useSendTransaction } from "wagmi";
 import { useFormattedBalance } from "@/hooks/useFormattedBalance";
 import { useEffect } from "react";
-import Counter from "@/components/Counter";
+// import Counter from "@/components/Counter";
 import SendTrans from "@/components/SendTrans";
-import DaoVote from "@/components/DaoVote";
+// import DaoVote from "@/components/DaoVote";
 import Sign from "@/components/Sign";
 
 export default function HomePage() {
@@ -45,8 +45,8 @@ export default function HomePage() {
             </div>
             <SendTrans />
             <Sign />
-            <Counter />
-            <DaoVote />
+            {/* <Counter />
+            <DaoVote /> */}
           </>
         )}
       </div>
